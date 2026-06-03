@@ -42,7 +42,8 @@ function LoginInner() {
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${origin}/auth/callback` },
+      // Flujo token_hash (ver src/app/auth/confirm/route.ts): robusto en celular.
+      options: { emailRedirectTo: `${origin}/auth/confirm` },
     });
 
     setEnviando(false);

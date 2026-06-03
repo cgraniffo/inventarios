@@ -6,7 +6,7 @@ pegar en **Supabase → Authentication → Email Templates**. Todas son email-sa
 
 | Archivo | Slot en Supabase | Variable que usa | Asunto sugerido |
 |---|---|---|---|
-| `magic-link.html` | Magic Link | `{{ .ConfirmationURL }}` | Tu enlace de acceso a Empresa Demo |
+| `magic-link.html` | Magic Link | `{{ .RedirectTo }}` + `{{ .TokenHash }}` (flujo token-hash → ruta `/auth/confirm`; robusto en celular) | Tu enlace de acceso a Empresa Demo |
 | `confirm-signup.html` | Confirm signup | `{{ .ConfirmationURL }}` | Confirma tu cuenta en Empresa Demo |
 | `invite.html` | Invite user | `{{ .ConfirmationURL }}` | Te invitaron a Empresa Demo |
 | `change-email.html` | Change Email Address | `{{ .ConfirmationURL }}`, `{{ .Email }}`, `{{ .NewEmail }}` | Confirma tu nuevo correo |
