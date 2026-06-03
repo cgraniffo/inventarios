@@ -15,10 +15,12 @@ export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const base = canonicalBase(origin);
   const token_hash = searchParams.get("token_hash");
-  const type = searchParams.get("type") as EmailOtpType | null;
+  // `type` por defecto "email": algunos proveedores de correo recortan el
+  // `&type=email` del enlace. Con el token_hash basta para verificar.
+  const type = (searchParams.get("type") as EmailOtpType | null) ?? "email";
   const next = searchParams.get("next") ?? "/";
 
-  if (!token_hash || !type) {
+  if (!token_hash) {
     return NextResponse.redirect(`${base}/auth/login?error=auth_failed&reason=missing_token_hash`);
   }
 
