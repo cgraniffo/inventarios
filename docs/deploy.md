@@ -5,7 +5,7 @@ El código se versiona en GitHub (repo privado). El primer commit ya está hecho
 
 ## 2. Conectar Netlify al repo
 1. En [app.netlify.com](https://app.netlify.com) → **Add new site → Import an existing project → GitHub**.
-2. Elige el repo `inventario-seguridad`.
+2. Elige el repo `inventarios` (https://github.com/cgraniffo/inventarios).
 3. Netlify detecta Next.js solo. Build command y publish ya vienen en `netlify.toml`.
 4. Antes de desplegar, agrega las **variables de entorno** (paso 3).
 
