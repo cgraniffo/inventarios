@@ -1,0 +1,14 @@
+# Configuración de despliegue en Netlify (Next.js 16).
+# El runtime oficial de Next.js para Netlify se encarga del resto.
+
+[build]
+  command = "node node_modules/next/dist/bin/next build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # pnpm: evitar el chequeo de deps que escala los build scripts ignorados a error
+  # (también está en pnpm-workspace.yaml). Inofensivo si Netlify usa npm.
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

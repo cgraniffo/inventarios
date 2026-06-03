@@ -1,0 +1,8 @@
+# Evita que pnpm corra un `pnpm install` de verificación antes de cada script.
+# Sin esto, `pnpm dev`/`pnpm build` fallan en este entorno porque pnpm escala a
+# error los build scripts nativos ignorados (sharp, unrs-resolver), que no
+# necesitamos compilar (traen binarios prebuilt).
+verifyDepsBeforeRun: false
+allowBuilds:
+  sharp: false
+  unrs-resolver: false
