@@ -190,6 +190,14 @@ Roadmap completo (21 features, 6 con IA) está en `/manual`. Implementadas: firm
 - **`middleware`→`proxy`**: Next 16 deprecó `middleware.ts`; usar `src/proxy.ts` con `export function proxy`.
 - **Next 16 en Netlify**: muy nuevo; si el build falla, revisar versión de `@netlify/plugin-nextjs` o
   el deploy log de Netlify.
+- **Magic link en celular + Netlify (loop de login)** — causa raíz real: (1) usar el flujo PKCE
+  (`exchangeCodeForSession`) falla cuando el correo abre el link en otro navegador/webview → cambiar a
+  **token-hash** (`/auth/confirm` con `verifyOtp({token_hash,type})`, que es un POST al servidor, sin
+  verificador local). Template del correo: `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email`.
+  (2) Netlify le pasa al servidor el host del **deploy** (`<id>--sitio.netlify.app`), no el canónico;
+  redirigir con ese `origin` deja la cookie en el host canónico pero manda al del deploy → loop. Fix:
+  `src/lib/site-url.ts` `canonicalBase()` normaliza el origen en confirm/callback/proxy. Para dominio
+  propio, setear `NEXT_PUBLIC_SITE_URL`.
 - **Firma digital**: se guarda como PNG dataURL en `asignaciones.firma_data` (texto). `@react-pdf` la
   incrusta con `<Image src={dataUrl}>`.
 - **Asistente IA**: `src/lib/ai/contexto.ts` arma un snapshot del inventario y se lo pasa a Claude con
