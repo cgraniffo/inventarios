@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { canonicalBase } from "@/lib/site-url";
 
 /**
  * Proxy (antes "middleware") de sesión + portería.
@@ -36,19 +37,16 @@ export async function proxy(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
   const esPublica = path.startsWith("/auth") || path.startsWith("/icon");
+  const base = canonicalBase(request.nextUrl.origin);
 
-  // Sin sesión en ruta protegida → al login.
+  // Sin sesión en ruta protegida → al login (host canónico).
   if (!user && !esPublica) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(`${base}/auth/login`);
   }
 
   // Con sesión, si va al login → al inicio.
   if (user && path === "/auth/login") {
-    const url = request.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(`${base}/`);
   }
 
   return supabaseResponse;
